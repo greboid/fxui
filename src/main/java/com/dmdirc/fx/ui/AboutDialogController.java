@@ -70,6 +70,7 @@ public class AboutDialogController extends AbstractFXMLViewController {
   public void showDialog(final Stage primaryStage) {
     final Parent parent = loadFxml();
     dialogStage = new Stage();
+    dialogStage.getIcons().addAll(primaryStage.getIcons());
     dialogStage.initModality(Modality.WINDOW_MODAL);
     dialogStage.initOwner(primaryStage);
     final Scene scene = new Scene(parent);

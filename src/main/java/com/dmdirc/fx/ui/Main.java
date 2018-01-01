@@ -27,6 +27,7 @@ package com.dmdirc.fx.ui;
 import javafx.application.Application;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 public class Main extends Application {
@@ -43,6 +44,7 @@ public class Main extends Application {
     final MainWindowController ctrl = ui.mainWindowController().get();
     final Parent parent = ctrl.loadFxml();
     final Scene scene = new Scene(parent);
+    primaryStage.getIcons().add(new Image(getClass().getClassLoader().getResourceAsStream("dmdirc.png")));
     primaryStage.setScene(scene);
     primaryStage.setMinWidth(800);
     primaryStage.setMinHeight(600);
