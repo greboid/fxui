@@ -43,7 +43,7 @@ public class MainWindowController extends AbstractFXMLViewController {
   private Stage primaryStage;
 
   @Inject
-  public MainWindowController(final FXUI ui, @Named("primary") Stage primaryStage) {
+  public MainWindowController(final FXUI ui, @Named("primary") final Stage primaryStage) {
     this.ui = ui;
     this.primaryStage = primaryStage;
   }

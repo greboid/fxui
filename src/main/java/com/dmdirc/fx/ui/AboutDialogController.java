@@ -44,7 +44,7 @@ public class AboutDialogController extends AbstractFXMLViewController {
     this.hs = hs;
   }
 
-  public void setDialogStage(Stage dialogStage) {
+  public void setDialogStage(final Stage dialogStage) {
     this.dialogStage = dialogStage;
   }
 
