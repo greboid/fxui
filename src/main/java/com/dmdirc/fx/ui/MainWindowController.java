@@ -24,23 +24,49 @@ SOFTWARE.
 
 package com.dmdirc.fx.ui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class AboutDialog {
+import java.net.URL;
+import java.util.ResourceBundle;
 
-  private Stage dialogStage;
+import javax.inject.Inject;
 
-  public void setDialogStage(Stage dialogStage) {
-    this.dialogStage = dialogStage;
+public class MainWindowController extends AbstractFXMLViewController {
+  private FXUI ui;
+
+  @Inject
+  public MainWindowController(FXUI ui) {
+    this.ui = ui;
   }
 
   @FXML
-  public void handleClose() {
-    dialogStage.close();
+  public void exitButtonAction(final ActionEvent actionEvent) {
+    Platform.exit();
   }
 
-  public void handleDMDirc(final ActionEvent actionEvent) {
+  @FXML
+  public void handleAboutDialog(final ActionEvent actionEvent) {
+    final AboutDialogController c = ui.aboutDialogController().get().get();
+    final Parent parent = c.loadFxml();
+    final Stage stage = new Stage();
+    c.setDialogStage(stage);
+    final Scene scene = new Scene(parent);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  @Override
+  protected URL getFxmlResourceUrl() {
+    return getClass().getClassLoader().getResource("MainWindow.fxml");
+  }
+
+  @Override
+  protected ResourceBundle getFxmlResourceBundle() {
+    return null;
   }
 }

@@ -25,7 +25,6 @@ SOFTWARE.
 package com.dmdirc.fx.ui;
 
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -40,8 +39,13 @@ public class Main extends Application {
 
   @Override
   public void start(Stage primaryStage) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainWindow.fxml"));
-    primaryStage.setScene(new Scene(root));
+    final FXUI ui = DaggerFXUI.builder()
+      .fXUIModule(new FXUIModule(this))
+      .build();
+    final MainWindowController ctrl = ui.mainWindowController().get();
+    final Parent parent = ctrl.loadFxml();
+    final Scene scene = new Scene(parent);
+    primaryStage.setScene(scene);
     primaryStage.setMinWidth(800);
     primaryStage.setMinHeight(600);
     primaryStage.show();

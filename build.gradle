@@ -4,18 +4,24 @@ version '0.1-SNAPSHOT'
 buildscript {
   dependencies {
     classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    classpath "net.ltgt.gradle:gradle-apt-plugin:0.13"
   }
 
   repositories {
     mavenLocal()
     mavenCentral()
+    maven {
+      url "https://plugins.gradle.org/m2/"
+    }
   }
 }
 
 apply plugin: 'java'
 apply plugin: 'javafx-gradle-plugin'
+apply plugin: 'net.ltgt.apt-idea'
 
 sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 repositories {
     mavenCentral()
@@ -34,8 +40,11 @@ jfx {
 }
 
 dependencies {
-  compile  group: 'org.controlsfx', name: 'controlsfx', version: '9.0.0'
+  compile group: 'org.controlsfx', name: 'controlsfx', version: '9.0.0'
   compile group: 'org.fxmisc.richtext', name: 'richtextfx', version: '0.8.1'
+  compile group: 'com.google.dagger', name: 'dagger', version: '2.14.+'
+  apt group: 'com.google.dagger', name: 'dagger-compiler', version: '2.14.+'
+  compile group: 'javax.annotation', name: 'jsr250-api', version: '1.+'
   testCompile group: 'junit', name: 'junit', version: '4.12'
 }
 
@@ -45,6 +54,24 @@ jar{
   from(configurations.compile) {
   }
   manifest{
-    attributes("Main-Class": 'com.dmdirc.fx.ui.Main');
+    attributes("Main-Class": 'com.dmdirc.fx.ui.Main')
   }
+}
+
+idea {
+  project {
+    configureAnnotationProcessing = true
+  }
+  module {
+    apt {
+      addGeneratedSourcesDirs = true
+      addAptDependencies = true
+      addCompileOnlyDependencies = false
+      mainDependenciesScope = "PROVIDED"
+    }
+  }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1'
 }

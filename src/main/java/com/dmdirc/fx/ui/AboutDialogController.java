@@ -24,42 +24,48 @@ SOFTWARE.
 
 package com.dmdirc.fx.ui;
 
-import javafx.application.Platform;
+import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
-import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainWindow {
+import javax.inject.Inject;
 
-  private Stage primaryStage;
+public class AboutDialogController extends AbstractFXMLViewController {
 
-  @FXML
-  public void exitButtonAction(final ActionEvent actionEvent) {
-    Platform.exit();
+  private Stage dialogStage;
+  private final HostServices hs;
+
+  @Inject
+  public AboutDialogController(final HostServices hs) {
+    this.hs = hs;
+  }
+
+  public void setDialogStage(Stage dialogStage) {
+    this.dialogStage = dialogStage;
   }
 
   @FXML
-  public void handleAboutDialog(final ActionEvent actionEvent) throws IOException {
-    FXMLLoader fl = new FXMLLoader();
-    fl.setLocation(getClass().getClassLoader().getResource("AboutDialog.fxml"));
-    fl.load();
-    Parent root = fl.getRoot();
-
-    Stage modal_dialog = new Stage(StageStyle.DECORATED);
-    modal_dialog.initModality(Modality.WINDOW_MODAL);
-    modal_dialog.initOwner(primaryStage);
-    Scene scene = new Scene(root);
-
-    AboutDialog t1 = (AboutDialog)fl.getController();
-    t1.setDialogStage(modal_dialog);
-    modal_dialog.setScene(scene);
-    modal_dialog.show();
+  public void handleClose(final ActionEvent actionEvent) {
+    dialogStage.close();
   }
+
+  @FXML
+  public void handleDMDirc(final ActionEvent actionEvent) {
+    hs.showDocument("https://www.dmdirc.com");
+  }
+
+  @Override
+  protected URL getFxmlResourceUrl() {
+    return getClass().getClassLoader().getResource("AboutDialog.fxml");
+  }
+
+  @Override
+  protected ResourceBundle getFxmlResourceBundle() {
+    return null;
+  }
+
 }
