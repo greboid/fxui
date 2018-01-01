@@ -29,19 +29,23 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 public class MainWindowController extends AbstractFXMLViewController {
   private FXUI ui;
+  private Stage primaryStage;
 
   @Inject
-  public MainWindowController(FXUI ui) {
+  public MainWindowController(final FXUI ui, @Named("primary") Stage primaryStage) {
     this.ui = ui;
+    this.primaryStage = primaryStage;
   }
 
   @FXML
@@ -54,6 +58,8 @@ public class MainWindowController extends AbstractFXMLViewController {
     final AboutDialogController c = ui.aboutDialogController().get().get();
     final Parent parent = c.loadFxml();
     final Stage stage = new Stage();
+    stage.initModality(Modality.WINDOW_MODAL);
+    stage.initOwner(primaryStage);
     c.setDialogStage(stage);
     final Scene scene = new Scene(parent);
     stage.setScene(scene);

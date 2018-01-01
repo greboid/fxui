@@ -38,9 +38,9 @@ public class Main extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws IOException {
+  public void start(final Stage primaryStage) throws IOException {
     final FXUI ui = DaggerFXUI.builder()
-      .fXUIModule(new FXUIModule(this))
+      .fXUIModule(new FXUIModule(this, primaryStage))
       .build();
     final MainWindowController ctrl = ui.mainWindowController().get();
     final Parent parent = ctrl.loadFxml();
