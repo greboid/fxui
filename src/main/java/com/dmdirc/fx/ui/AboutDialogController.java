@@ -27,6 +27,9 @@ package com.dmdirc.fx.ui;
 import javafx.application.HostServices;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -42,10 +45,6 @@ public class AboutDialogController extends AbstractFXMLViewController {
   @Inject
   public AboutDialogController(final HostServices hs) {
     this.hs = hs;
-  }
-
-  public void setDialogStage(final Stage dialogStage) {
-    this.dialogStage = dialogStage;
   }
 
   @FXML
@@ -66,6 +65,16 @@ public class AboutDialogController extends AbstractFXMLViewController {
   @Override
   protected ResourceBundle getFxmlResourceBundle() {
     return null;
+  }
+
+  public void showDialog(final Stage primaryStage) {
+    final Parent parent = loadFxml();
+    dialogStage = new Stage();
+    dialogStage.initModality(Modality.WINDOW_MODAL);
+    dialogStage.initOwner(primaryStage);
+    final Scene scene = new Scene(parent);
+    dialogStage.setScene(scene);
+    dialogStage.show();
   }
 
 }
